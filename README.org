@@ -1,5 +1,4 @@
-
-* Jp-Quadtree  - quadtree implementation
+* JP-Quadtree  - a quadtree implementation
 
 ** Usage
 
@@ -34,6 +33,3 @@ Copyright (c) 2017 Jacek Podkanski (ruby.object@googlemail.com)
 * License
 
 Licensed under the LLGPL License.
-
-
-
