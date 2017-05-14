@@ -50,6 +50,10 @@
                              (funcall (cdr quadrant-functions)
                                       (cdr (node-central-point node)) (cdr vector-distances))))
          (new-size (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 2 2))))
+    #|
+    Still, I need to add handling of other quadrants an figuring out the
+    quadrant based on the element coordinates
+    |#
     (cond ((eq quadrant :top-right)
            (if (null (node-top-right node))
                (setf (node-top-right node)
