@@ -40,24 +40,36 @@
     ((eq quadrant :bottom-left)  (cons '- '-))
     (T (error "wrong quadrant"))))
 
-(defun create-subnode (node quadrant)
+(defun create-subnode (node coordinates)
   "Create a sub node based on QUADRANT with correct central-point."
-  (let* ((quadrant-functions (quadrant-functions quadrant))
+  (let* ((quadrant (qualifier (node-central-point node) coordinates))
+         (quadrant-functions (quadrant-functions quadrant))
          (vector-distances (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 4 4)))
          (new-central-point (cons
                              (funcall (car quadrant-functions)
                                       (car (node-central-point node)) (car vector-distances))
                              (funcall (cdr quadrant-functions)
                                       (cdr (node-central-point node)) (cdr vector-distances))))
-         (new-size (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 2 2))))
-    #|
-    Still, I need to add handling of other quadrants an figuring out the
-    quadrant based on the element coordinates
-    |#
-    (cond ((eq quadrant :top-right)
-           (if (null (node-top-right node))
-               (setf (node-top-right node)
-                     (make-node :size new-size :central-point new-central-point))
-               (create-subnode (node-top-right node) :top-right)))
-          (T (error "not implemented")))
+         (new-size (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 2 2)))
+         (node-fn))
+
+    (cond
+      ((eq quadrant :top-left)
+       (setf node-fn 'node-top-left))
+      ((eq quadrant :top-right)
+       (setf node-fn 'node-top-right))
+      ((eq quadrant :bottom-left)
+       (setf node-fn 'node-bottom-left))
+      ((eq quadrant :bottom-right)
+       (setf node-fn 'node-bottom-right))
+      (T (error "not implemented")))
+
+    (if (null (funcall node-fn node))
+        (funcall (fdefinition (list 'setf node-fn))
+                 (make-node :element coordinates
+                            :size new-size
+                            :central-point new-central-point)
+                 node)
+        (create-subnode (funcall node-fn node) coordinates))
+
     node))
