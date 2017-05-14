@@ -25,6 +25,7 @@
   :depends-on (:alexandria :iterate)
   :components ((:module "src"
                 :components
-                ((:file "package"))))
+                ((:file "package")
+                 (:file "quadtree"))))
   :description "quadtree implementation"
   :in-order-to ((test-op (test-op :jp-quadtree.test))))

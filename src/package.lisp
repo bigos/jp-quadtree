@@ -6,6 +6,3 @@
 (in-package :cl-user)
 (defpackage jp-quadtree
   (:use :cl :alexandria :iterate))
-(in-package :jp-quadtree)
-
-;; blah blah blah.

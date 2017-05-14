@@ -33,3 +33,29 @@ Copyright (c) 2017 Jacek Podkanski (ruby.object@googlemail.com)
 * License
 
 Licensed under the LLGPL License.
+
+
+* Notes
+
+** operation
+need a box and sub boxes for points
+we start with a node of size w h and a central point x y
+then we descent to nodes that are quarter of their parent size with
+recalculated central points
+
+** inserting
+
+find the quadrant
+
+*** quadrant empty
+add the value to the quadrant
+
+*** quadrant not empty
+quadrant is ..
+
+**** a value
+replace the existing value with a new node adding to it the existing value and
+the new value
+
+**** node
+recurse
