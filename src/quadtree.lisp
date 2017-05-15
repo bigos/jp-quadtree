@@ -25,7 +25,7 @@
           :top-right)))
 
 (defun root-node-creator ()
-  (make-node :element (cons 0 0) :size (cons 10 10) :central-point (cons 5 5)))
+  (make-node :element (cons 0 0) :size (cons 12 12) :central-point (cons 6 6)))
 
 (defun pair-fn (fn a b)
   "Run a function FN using pairs A and B as arguments."
