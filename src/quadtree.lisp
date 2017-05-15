@@ -40,8 +40,8 @@
     ((eq quadrant :bottom-left)  (cons '- '-))
     (T (error "wrong quadrant"))))
 
-(defun create-subnode (node coordinates)
-  "Create a sub node based on QUADRANT with correct central-point."
+(defun insert-node (node coordinates)
+  "Insert a child node with COORDINATES into the parent NODE."
   (let* ((quadrant (qualifier (node-central-point node) coordinates))
          (quadrant-functions (quadrant-functions quadrant))
          (vector-distances (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 4 4)))
@@ -63,7 +63,8 @@
       ((eq quadrant :bottom-right)
        (setf node-fn 'node-bottom-right))
       (T (error "not implemented")))
-
+    ;; it is still sensitive to adding data in the incorrect order
+    ;;  need to revisit my readme
     (if (null (funcall node-fn node))
         (funcall (fdefinition (list 'setf node-fn))
                  (make-node :element coordinates
