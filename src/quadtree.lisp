@@ -50,9 +50,11 @@
                                       (car (node-central-point node)) (car vector-distances))
                              (funcall (cdr quadrant-functions)
                                       (cdr (node-central-point node)) (cdr vector-distances))))
-         (new-size (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 2 2)))
+         (new-size (pair-fn (lambda (a b) (ceiling (/ a b))) (node-size node) (cons 2 2)))
          (node-fn))
 
+    (when (< (car new-size) 0.25)
+      (error "size too small"))
     (cond
       ((eq quadrant :top-left)
        (setf node-fn 'node-top-left))
@@ -65,12 +67,13 @@
       (T (error "not implemented")))
     ;; it is still sensitive to adding data in the incorrect order
     ;;  need to revisit my readme
-    (if (null (funcall node-fn node))
-        (funcall (fdefinition (list 'setf node-fn))
-                 (make-node :element coordinates
-                            :size new-size
-                            :central-point new-central-point)
-                 node)
-        (create-subnode (funcall node-fn node) coordinates))
-
+    (let ((quadrant-node (funcall node-fn node)))
+        (if (null quadrant-node)
+            (funcall (fdefinition (list 'setf node-fn))
+                     (make-node :element coordinates
+                                :size new-size
+                                :central-point new-central-point)
+                     node)
+            (progn
+              (insert-node (funcall node-fn node) coordinates))))
     node))
