@@ -66,12 +66,12 @@
        (setf node-fn 'node-bottom-right))
       (T (error "not implemented")))
     (let ((quadrant-node (funcall node-fn node)))
-        (if (null quadrant-node)
-            (funcall (fdefinition (list 'setf node-fn))
-                     (make-node :element coordinates
-                                :size new-size
-                                :central-point new-central-point)
-                     node)
-            (progn
-              (insert-node (funcall node-fn node) coordinates))))
+      (if (null quadrant-node)
+          (funcall (fdefinition (list 'setf node-fn))
+                   (make-node :element coordinates
+                              :size new-size
+                              :central-point new-central-point)
+                   node)
+          (progn
+            (insert-node (funcall node-fn node) coordinates))))
     node))
