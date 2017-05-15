@@ -44,13 +44,13 @@
   "Insert a child node with COORDINATES into the parent NODE."
   (let* ((quadrant (qualifier (node-central-point node) coordinates))
          (quadrant-functions (quadrant-functions quadrant))
-         (vector-distances (pair-fn (lambda (a b) (floor (/ a b))) (node-size node) (cons 4 4)))
+         (vector-distances (pair-fn (lambda (a b) (/ a b)) (node-size node) (cons 4 4)))
          (new-central-point (cons
                              (funcall (car quadrant-functions)
                                       (car (node-central-point node)) (car vector-distances))
                              (funcall (cdr quadrant-functions)
                                       (cdr (node-central-point node)) (cdr vector-distances))))
-         (new-size (pair-fn (lambda (a b) (ceiling (/ a b))) (node-size node) (cons 2 2)))
+         (new-size (pair-fn (lambda (a b)  (/ a b)) (node-size node) (cons 2 2)))
          (node-fn))
 
     (when (< (car new-size) 0.25)
@@ -65,8 +65,6 @@
       ((eq quadrant :bottom-right)
        (setf node-fn 'node-bottom-right))
       (T (error "not implemented")))
-    ;; it is still sensitive to adding data in the incorrect order
-    ;;  need to revisit my readme
     (let ((quadrant-node (funcall node-fn node)))
         (if (null quadrant-node)
             (funcall (fdefinition (list 'setf node-fn))
